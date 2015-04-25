@@ -23,17 +23,17 @@ class ParamDoc extends Object
     public $isOptional;
     public $defaultValue;
     public $isPassedByReference;
-
     // will be set by creating class
     public $description;
     public $type;
     public $types;
     public $sourceFile;
 
+
     /**
      * @param \phpDocumentor\Reflection\FunctionReflector\ArgumentReflector $reflector
-     * @param Context                                                       $context
-     * @param array                                                         $config
+     * @param Context $context
+     * @param array $config
      */
     public function __construct($reflector = null, $context = null, $config = [])
     {

@@ -7,9 +7,7 @@
 
 namespace yii\apidoc\templates\online;
 
-use yii\apidoc\models\Context;
 use yii\apidoc\models\TypeDoc;
-use yii\console\Controller;
 use Yii;
 use yii\helpers\Console;
 
@@ -22,8 +20,8 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
 {
     public $layout = false;
     public $indexView = '@yii/apidoc/templates/online/views/index.php';
-
     public $pageTitle = 'Yii Framework 2.0 API Documentation';
+
 
     /**
      * @inheritdoc
@@ -38,7 +36,7 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
         $packages = [];
         $notNamespaced = [];
         foreach (array_merge($context->classes, $context->interfaces, $context->traits) as $type) {
-            /** @var TypeDoc $type */
+            /* @var $type TypeDoc */
             if (empty($type->namespace)) {
                 $notNamespaced[] = str_replace('\\', '-', $type->name);
             } else {
@@ -56,11 +54,17 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generateApiUrl($typeName)
     {
         return strtolower(str_replace('\\', '-', $typeName));
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function generateFileName($typeName)
     {
         return $this->generateApiUrl($typeName) . '.html';

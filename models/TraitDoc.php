@@ -18,13 +18,13 @@ class TraitDoc extends TypeDoc
     // classes using the trait
     // will be set by Context::updateReferences()
     public $usedBy = [];
-
     public $traits = [];
+
 
     /**
      * @param \phpDocumentor\Reflection\TraitReflector $reflector
-     * @param Context                                  $context
-     * @param array                                    $config
+     * @param Context $context
+     * @param array $config
      */
     public function __construct($reflector = null, $context = null, $config = [])
     {

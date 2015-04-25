@@ -7,11 +7,10 @@
 
 namespace yii\apidoc\templates\bootstrap;
 
-use yii\apidoc\models\Context;
-use yii\console\Controller;
 use Yii;
+use yii\apidoc\helpers\ApiIndexer;
 use yii\helpers\Console;
-use yii\helpers\Html;
+use yii\helpers\FileHelper;
 
 /**
  *
@@ -24,6 +23,7 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
 
     public $layout = '@yii/apidoc/templates/bootstrap/layouts/api.php';
     public $indexView = '@yii/apidoc/templates/bootstrap/views/index.php';
+
 
     /**
      * @inheritdoc
@@ -79,9 +79,22 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
 
         if ($this->controller !== null) {
             $this->controller->stdout('done.' . PHP_EOL, Console::FG_GREEN);
+            $this->controller->stdout('generating search index...');
+        }
+
+        $indexer = new ApiIndexer();
+        $indexer->indexFiles(FileHelper::findFiles($targetDir, ['only' => ['*.html']]), $targetDir);
+        $js = $indexer->exportJs();
+        file_put_contents($targetDir . '/jssearch.index.js', $js);
+
+        if ($this->controller !== null) {
+            $this->controller->stdout('done.' . PHP_EOL, Console::FG_GREEN);
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getSourceUrl($type, $line = null)
     {
         if (is_string($type)) {
@@ -91,7 +104,11 @@ class ApiRenderer extends \yii\apidoc\templates\html\ApiRenderer
         $baseUrl = 'https://github.com/yiisoft/yii2/blob/master';
         switch ($this->getTypeCategory($type)) {
             case 'yii':
-                $url = '/framework/' . str_replace('\\', '/', substr($type->name, 4)) . '.php';
+                if ($type->name == 'Yii') {
+                    $url = '/framework/Yii.php';
+                } else {
+                    $url = '/framework/' . str_replace('\\', '/', substr($type->name, 4)) . '.php';
+                }
                 break;
             case 'app':
                 return null;

@@ -10,6 +10,7 @@ namespace yii\apidoc\templates\bootstrap;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\BootstrapAsset;
+use yii\bootstrap\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -48,7 +49,7 @@ use yii\helpers\Html;
  * @author Antonio Ramirez <amigo.cobos@gmail.com>
  * @since 2.0
  */
-class SideNavWidget extends \yii\bootstrap\Widget
+class SideNavWidget extends Widget
 {
     /**
      * @var array list of items in the nav widget. Each array element represents a single
@@ -77,6 +78,7 @@ class SideNavWidget extends \yii\bootstrap\Widget
      * @see isItemActive
      */
     public $activeUrl;
+
 
     /**
      * Initializes the widget.
@@ -117,11 +119,11 @@ class SideNavWidget extends \yii\bootstrap\Widget
 
     /**
      * Renders a widget's item.
-     * @param  string|array                     $item      the item to render.
-     * @param  boolean                          $collapsed whether to collapse item if not active
+     * @param string|array $item the item to render.
+     * @param boolean $collapsed whether to collapse item if not active
      * @throws \yii\base\InvalidConfigException
-     * @return string                           the rendering result.
-     * @throws InvalidConfigException           if label is not defined
+     * @return string the rendering result.
+     * @throws InvalidConfigException if label is not defined
      */
     public function renderItem($item, $collapsed = true)
     {
@@ -133,7 +135,6 @@ class SideNavWidget extends \yii\bootstrap\Widget
         }
 
         $label = $this->encodeLabels ? Html::encode($item['label']) : $item['label'];
-//		$options = ArrayHelper::getValue($item, 'options', []);
         $items = ArrayHelper::getValue($item, 'items');
         $url = Url::to(ArrayHelper::getValue($item, 'url', '#'));
         $linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
